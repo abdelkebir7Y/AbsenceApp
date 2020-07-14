@@ -31,6 +31,7 @@
     "react-native-safe-area-context": "~3.0.7",
     "react-native-screens": "~2.9.0",
     "react-native-secure-storage": "^0.1.2",
+    "react-native-table-component": "^1.2.1",
     "react-native-unimodules": "~0.10.1",
     "react-native-vector-icons": "^7.0.0",
     "react-native-web": "~0.11.7"

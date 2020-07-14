@@ -5,33 +5,48 @@ import { AuthStackNavigator } from './navigators/AuthStackNavigator';
 import { MainStackNavigator } from './navigators/MainStackNavigator';
 import {lightTheme} from './themes/Light'
 import { AuthContext } from './contexts/AuthContext';
-import { UseAuth } from './hooks/UseAuth';
+import { UseAuth } from './hooks/Reducer';
 import { UserContext } from './contexts/UserContext';
+import {ErrorContext} from './contexts/ErrorContext'
+import { SplashScreen } from './screens/SplashScreen';
 
 const RouteStack = createStackNavigator();
 
 export default function () {
   
   const {auth,state} = UseAuth();
-
   return (
     <AuthContext.Provider value={auth}>
       <NavigationContainer theme={lightTheme}>
         <RouteStack.Navigator screenOptions={{
           headerShown : false,
         }}>
-        { state.user ? (
-            <RouteStack.Screen name="MainStack">
-                {() => (
-                  
-                    <UserContext.Provider value={state.user} >
-                      <MainStackNavigator/>
-                    </UserContext.Provider>
-                  
-                 ) }
-          </RouteStack.Screen>
-        ) : ( 
-          <RouteStack.Screen name="AuthStack" component={AuthStackNavigator} />)
+        { ( state.loading) ? 
+               <RouteStack.Screen name="Splash" component={SplashScreen} />
+            :
+               (
+                state.user ? (
+                    <RouteStack.Screen name="MainStack">
+                        {() => (
+                          
+                            <UserContext.Provider value={{user :state.user , emploi : state.emploi }} >
+                              <MainStackNavigator/>
+                            </UserContext.Provider>
+                          
+                        ) }
+                  </RouteStack.Screen>
+                ) : ( 
+                  <RouteStack.Screen name="AuthStack">
+                  {() => (
+                                    
+                      <ErrorContext.Provider value={state.error} >
+                        <AuthStackNavigator />
+                      </ErrorContext.Provider>
+                    
+                  ) }
+                  </RouteStack.Screen>
+                )
+              )
         }
         </RouteStack.Navigator>
       </NavigationContainer>

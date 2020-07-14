@@ -29,3 +29,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
   });
+
+  // {
+  //   "name": "absence",
+  //   "displayName": "absence",
+  //   "expo": {
+  //     "name": "absence",
+  //     "slug": "absence",
+  //     "version": "1.0.0",
+  //     "assetBundlePatterns": [
+  //       "**/*"
+  //     ]
+  //   }
+  // }

@@ -11,11 +11,18 @@ export default function Error({error}) {
 
 const styles = StyleSheet.create({
   container: {
-
+    marginTop :-16,
+    backgroundColor: '#f8d7da',
+    borderColor: '#f5c6cb',
+    borderWidth:1,
+    borderRadius :8,
+    alignItems : "center",
+    justifyContent : 'center',
   },
   text : {
-    color : 'red',
+    textAlign :'center',
+    padding : 6,
+    color: '#721c24',
     paddingVertical: 8,
-    fontWeight : 'bold',
   },
 });

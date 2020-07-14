@@ -1,12 +1,14 @@
 {
-  "name": "absence",
-  "displayName": "absence",
   "expo": {
-    "name": "absence",
-    "slug": "absence",
+    "name": "AbsenceApp",
+    "icon": "./src/logo/logo.png",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "slug": "absence",
+    "orientation" : "portrait",
+    "sdkVersion" : "38.0.0",
+    "android": {
+      "package": "com.absenceApp92.absence",
+      "versionCode": 1
+    }
   }
 }

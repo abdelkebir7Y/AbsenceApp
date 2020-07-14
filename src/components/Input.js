@@ -24,7 +24,7 @@ export default function Input({style, ...props}) {
     };
   });
 
-  return ( !(props.placeholder == 'Mot de passe') ? (
+  return ( (props.inputType == 'email') ? (
               <View style={[styles.container , style]}>
               <FontAwesome name="envelope" size={24} color="black" style={styles.iconLeft }/>
               <TextInput {...props} style={{width : dimensions.window.width -32-50-30-2}} />

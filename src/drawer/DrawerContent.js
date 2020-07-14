@@ -9,7 +9,7 @@ import { UserContext } from '../contexts/UserContext';
 
 
 export function DrawerContent(props){
-const user = React.useContext(UserContext);
+const {user} = React.useContext(UserContext);
 const {logout} = React.useContext(AuthContext);
     return (
         <View style = {{flex :1}}>
@@ -25,7 +25,7 @@ const {logout} = React.useContext(AuthContext);
                                 size={50}
                                 icon={() => <AntDesign name="user" size={45} color='black' />}  
                             />
-                            <View style={{marginLeft : 15}}>
+                            <View style={{marginLeft : 6}}>
                                 <Title style={styles.title}>{user.name}</Title>
                                 <Caption style={styles.caption}>{user.email}</Caption>
                             </View>
