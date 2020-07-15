@@ -1,5 +1,5 @@
 import React , { useState, useEffect }  from 'react';
-import { StyleSheet, Text, Dimensions,View ,Image ,ScrollView} from 'react-native';
+import { StyleSheet, Text, Dimensions,View ,Image ,ScrollView , StatusBar} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     },
     header :{
         flex : 1,
+        marginTop: StatusBar.currentHeight || 0,
         alignItems: 'center',
         justifyContent: 'center',
     },
