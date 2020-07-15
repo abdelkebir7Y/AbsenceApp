@@ -1,16 +1,13 @@
 import React from "react";
-import { Alert, Modal, StyleSheet, Text ,TouchableOpacity, View } from "react-native";
+import { Modal, StyleSheet, Text ,TouchableOpacity, View } from "react-native";
 import { AntDesign } from '@expo/vector-icons'; 
-export default ModalComponent = ({propsModalVisible , onPress}) => {
+export default function ModalComponent ({propsModalVisible , onPress}){
   return (
     <View style={styles.centeredView}>
       <Modal
         animationType="fade"
         transparent={true}
         visible={propsModalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
