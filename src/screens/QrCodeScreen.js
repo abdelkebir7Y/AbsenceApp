@@ -86,15 +86,17 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'column',
       justifyContent: 'flex-end',
-      backgroundColor : '#343a40',
     },
     button :{ 
-      backgroundColor : '#343a40' ,
-      borderBottomEndRadius :0,
-      borderBottomLeftRadius :0
+      backgroundColor : 'rgba(0,0,0,0.5)' ,
+      paddingHorizontal : 0,
+      marginBottom : 6,
+      width : 250,
+      alignSelf : 'center'
     },
     camera : {
       flex: 1,
       alignItems: 'center',
+      overflow: 'hidden',
     }
   });
