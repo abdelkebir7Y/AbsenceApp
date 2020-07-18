@@ -1,11 +1,12 @@
-import React from 'react';
+import React ,{useContext} from 'react';
 import { StyleSheet, Text, View ,SafeAreaView ,RefreshControl } from 'react-native';
 import { UserContext } from '../contexts/UserContext';
 import { Table, TableWrapper, Row, Col } from 'react-native-table-component';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AuthContext } from '../contexts/AuthContext';
 import {DAYS , HOURS} from '../config/index';
-
+import {OfflineBar} from '../components/OfflineBar';
+import { NetworkContext } from '../contexts/NetworkProvider';
 const wait = (timeout) => {
   return new Promise(resolve => {
     setTimeout(resolve, timeout);
@@ -46,17 +47,26 @@ export  function ScheduleScreen() {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
-
+  const network = useContext(NetworkContext);
   return (
-    <SafeAreaView  style={styles.container}>
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
-        }
-      >
-        <Text style = {styles.title}>Emploi de temps :</Text>
+    <View  style={styles.container}>
+      {
+        (network === 'Online')? 
+          <View style = {StyleSheet.absoluteFill}>
+            <ScrollView
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+              }
+            >
+              <Text style = {styles.title}>Emploi de temps :</Text>
+            </ScrollView>
+          </View>
+          
+        : <OfflineBar/> 
+      }
+        
         <View style={styles.table}>
-          <ScrollView horizontal={true} >
+          <ScrollView horizontal={true}>
               <View>
                 <Table borderStyle={{borderWidth: 1, borderColor: '#000'}}>
                   <Row data={tableHead} widthArr={[101 , 161 , 161 , 161 , 161 , 161 , 161]} style={styles.head} textStyle={styles.text}/>
@@ -84,13 +94,13 @@ export  function ScheduleScreen() {
               </View>
           </ScrollView>
         </View>
-      </ScrollView>
-    </SafeAreaView >
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
     container:{
+        paddingTop : 61,
         flex:1,
         marginBottom  :1
     },

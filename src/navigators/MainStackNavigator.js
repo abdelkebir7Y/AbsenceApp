@@ -2,7 +2,7 @@ import React from 'react';
 import { createDrawerNavigator} from '@react-navigation/drawer';
 import HomeStackNavigator from './HomeStackNavigator';
 import { DrawerContent } from '../drawer/DrawerContent';
-import ProfileScreen from '../screens/ProfileScreen';
+import {ProfileScreen} from '../screens/ProfileScreen';
 import HelpScreen from '../screens/HelpScreen';
 
 const Drawer = createDrawerNavigator();

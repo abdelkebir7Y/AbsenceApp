@@ -4,8 +4,7 @@
     "icon": "./src/logo/logo.png",
     "version": "1.0.0",
     "slug": "absence",
-    "orientation" : "portrait",
-    "sdkVersion" : "38.0.0",
+    "orientation": "portrait",
     "android": {
       "package": "com.absenceApp92.absence",
       "versionCode": 1
