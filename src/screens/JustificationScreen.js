@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
 import { Entypo } from '@expo/vector-icons'; 
 import ModalComponent from '../components/ModalComponent';
-
+import QrcodeSccess from '../components/QrcodeSuccess';
 export  function JustificationScreen({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -52,6 +52,10 @@ export  function JustificationScreen({navigation}) {
           onPress = {() => {
             setModalVisible(false);
           }}/>
+        <QrcodeSccess 
+          propsModalVisible={false} 
+          message=' helllllllllllllllooooooooooooooooooooo'
+          />
       </View>
     </View>
   );

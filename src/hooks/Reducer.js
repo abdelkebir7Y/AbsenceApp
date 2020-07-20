@@ -1,5 +1,5 @@
 import React , {useEffect} from 'react';
-import {BASE_URL} from '../config/index'
+import {BASE_URL} from '../config/index';
 import { createAction } from '../utils/createAction';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -66,18 +66,30 @@ export function UseAuth (){
                                 email : res.user.email,
                                 name : res.user.name,
                                 id : res.user.id,
+                                classe : res.user.classe,
+                                groupe : res.user.groupe,
                             };
                             emploi = res.emploi;
                         }
-                        else  {
+                        else if(res.code === 400) {
                             error = {
                                 message : res.message
+                            }
+                        }
+                        else if(res.message === 'The given data was invalid.'){
+                            error = {
+                                message : 'Utilisez une adresse e-mail et un mot de passe valides '
+                            }
+                        }else {
+                            console.log(res.message)
+                            error = {
+                                message : 'some other error '
                             }
                         }
                     });
                 }catch(e){
                     error = {
-                        message : 'serveur ne repond pas'
+                        message : 'serveur ne répond pas'
                     }
                 }
                 if(user !== null) {

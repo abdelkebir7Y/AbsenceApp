@@ -1,18 +1,23 @@
 import React from 'react';
-import { createDrawerNavigator} from '@react-navigation/drawer';
-import HomeStackNavigator from './HomeStackNavigator';
-import { DrawerContent } from '../drawer/DrawerContent';
-import {ProfileScreen} from '../screens/ProfileScreen';
-import HelpScreen from '../screens/HelpScreen';
+import {DrawerStackNavigator} from './DrawerStackNavigator';
+import { createStackNavigator } from '@react-navigation/stack';
+import {HelpNavigator} from './HelpNavigator';
+import { ProfileNavigator } from './ProfileNavigator';
 
-const Drawer = createDrawerNavigator();
+
+const MainStack = createStackNavigator();
 
 export function MainStackNavigator() {
   return (
-    <Drawer.Navigator initialRouteName="HomeStack" drawerPosition='right' drawerContent={props => <DrawerContent {...props} />} >
-      <Drawer.Screen name="Profile" component={ProfileScreen} />
-      <Drawer.Screen name="Aide" component={HelpScreen} />
-      <Drawer.Screen name="HomeStack" component={HomeStackNavigator} />
-    </Drawer.Navigator>
+    <MainStack.Navigator 
+      mode = {'modal'}
+      initialRouteName="DrawerStack" 
+      screenOptions={{
+        headerShown : false,
+      }}>
+      <MainStack.Screen name="DrawerStack" component={DrawerStackNavigator} />
+      <MainStack.Screen name="Profile" component={ProfileNavigator} />
+      <MainStack.Screen name="Help" component={HelpNavigator} />
+    </MainStack.Navigator>
   );
 }

@@ -6,12 +6,18 @@ import Button from '../components/Button';
 import { Camera } from 'expo-camera';
 import {OfflineBar} from '../components/OfflineBar'
 import { NetworkContext } from '../contexts/NetworkProvider';
+import {SquareQrCode} from '../components/SquareQrCode';
+import Loading from '../components/Loading';
+import QrcodeSccess from '../components/QrcodeSuccess';
 
 export function QrCodeScreen ({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(true);
   const [message, setMessage] = useState('');
-  const [loaded, setLoaded] = useState(true);
+  const [loading , setLoading] = React.useState(false);
+  const [focus, setFocus] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+
   const network = React.useContext(NetworkContext);
 
   React.useEffect(() => {
@@ -20,18 +26,17 @@ export function QrCodeScreen ({navigation}) {
       setHasPermission(status === 'granted');
     })();
     navigation.addListener('focus', () => {
-      setLoaded(true);
+      setFocus(true);
     });
     navigation.addListener('blur', () => {
-      setLoaded(false);
+      setFocus(false);
     });
     
   }, [navigation]);
 
   const handleBarCodeScanned = async({ data }) => {
+    setLoading(true);
     setScanned(true);
-    alert(`${data}`);
-    console.log(`${data}`);
       try { await fetch(BASE_URL+'/qrcode', {
         method: 'post',
         headers: {
@@ -44,37 +49,50 @@ export function QrCodeScreen ({navigation}) {
     })
         .then(res => res.json())
         .then(res => {
-          console.log(res);
-          setMessage(res.message);
-          alert(res.message);
+          if(res.message === 'The payload is invalid.'){
+            setMessage('Le code que vous avez scanner est invalide');
+          }else {
+            setMessage(res.message);
+            setModalVisible(true);
+            setTimeout (async () => {setModalVisible(false)} , 4000);
+            ;
+          }
         });
     }catch(e){
-        alert(e);
+      setMessage('serveur ne répond pas');
     }
+    setLoading(false);
+    console.log(message);
   };
 
   if (hasPermission === false) {
-    return <Text>donnez les permission à AbsencesApp pour utilisé la caméra</Text>;
+    return <Text style={{flex : 1 ,justifyContent : 'center' , alignItems : 'center'}}>donnez les permission à AbsencesApp pour utilisé la caméra</Text>;
   }
 
   return (
     <View style={styles.container}>
       
-      {loaded && (<Camera 
+      {focus && (<Camera 
           barCodeScannerSettings={{
             barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
           }}
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={[StyleSheet.absoluteFill , styles.camera]}
         />)}
+      <SquareQrCode />
+      <QrcodeSccess 
+        propsModalVisible={modalVisible} 
+        message={message}
+        />
       <View >
-        {scanned && <Button title={'cliquez ici pour scanner le code'} style ={styles.button} onPress={() => setScanned(false)} />}
+        {(network === 'Online') && scanned && <Button title={'cliquez ici pour scanner le code'} style ={styles.button} onPress={() => setScanned(false)} />}
       </View>
       {
         (network === 'Offline')? 
           <OfflineBar/> 
           : null
       }
+      <Loading loading={loading} message='Traitement...'/>
     </View>
     
   );

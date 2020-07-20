@@ -50,7 +50,7 @@ const {logout} = React.useContext(AuthContext);
                 <DrawerItem 
                     label="Aide" 
                     icon={() => <Feather name="help-circle" size={24} color='#007bff' />} 
-                    onPress={() =>{props.navigation.navigate('Aide')}} 
+                    onPress={() =>{props.navigation.navigate('Help')}} 
                 />            
             </Drawer.Section>
         </View>

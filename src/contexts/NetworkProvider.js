@@ -5,7 +5,7 @@ export const NetworkContext = createContext();
 
 export function NetworkProvider (){
     const [connection , setConnection] = useState('Offline');
-    handleConnectivityChange = state => {
+    const handleConnectivityChange = state => {
         if (state.isConnected) {
             setConnection('Online');
         } else {

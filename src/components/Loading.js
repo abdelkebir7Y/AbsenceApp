@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, ActivityIndicator,View} from 'react-native';
 
-export default function Loading({loading}) {
+export default function Loading({loading , message}) {
     if (!loading) {
         return <View/>
     }
@@ -9,7 +9,7 @@ export default function Loading({loading}) {
       <View style = {styles.overlay}>
         <View style={styles.container}>
             <ActivityIndicator color={'#007bff'}/>
-            <Text style={styles.text}>Connexion...</Text> 
+            <Text style={styles.text}>{message}</Text> 
         </View>
         
       </View>

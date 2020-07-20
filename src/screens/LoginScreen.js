@@ -88,7 +88,7 @@ export  function LoginScreen() {
                     />
                 </ScrollView>
             </Animatable.View>
-            <Loading loading={loading}/>
+            <Loading loading={loading} message='Connexion...'/>
       </View>
   );
 }

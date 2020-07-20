@@ -11,12 +11,18 @@ import {ErrorContext} from './contexts/ErrorContext'
 import { SplashScreen } from './screens/SplashScreen';
 import { NetworkContext } from './contexts/NetworkProvider';
 import { NetworkProvider } from './contexts/NetworkProvider';
+import { Platform } from 'react-native';
 const RouteStack = createStackNavigator();
 
 export default function () {
   
   const {auth,state} = UseAuth();
-  const network = NetworkProvider();
+  let network;
+  if(Platform.OS === 'web'){
+    network = 'Online';
+  } else {
+    network = NetworkProvider();
+  }
   return (
     <NetworkContext.Provider value={network}>
       <AuthContext.Provider value={auth}>
