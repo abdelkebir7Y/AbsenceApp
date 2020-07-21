@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import {BASE_URL} from '../config/index'
@@ -9,14 +9,18 @@ import { NetworkContext } from '../contexts/NetworkProvider';
 import {SquareQrCode} from '../components/SquareQrCode';
 import Loading from '../components/Loading';
 import QrcodeSccess from '../components/QrcodeSuccess';
+import QrcodeError from '../components/QrcodeError';
+import { UserContext } from '../contexts/UserContext';
 
 export function QrCodeScreen ({navigation}) {
+  const {user} = React.useContext(UserContext);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(true);
   const [message, setMessage] = useState('');
   const [loading , setLoading] = React.useState(false);
   const [focus, setFocus] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleSuccess, setModalVisibleSuccess] = useState(false);
+  const [modalVisibleError, setModalVisibleError] = useState(false);
 
   const network = React.useContext(NetworkContext);
 
@@ -44,25 +48,26 @@ export function QrCodeScreen ({navigation}) {
         'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-        qrcode: `${data}`
+        qrcode: `${data}`,
+        id : user.id
         }),
     })
         .then(res => res.json())
         .then(res => {
           if(res.message === 'The payload is invalid.'){
+            setModalVisibleError(true);
+            setTimeout (async () => {setModalVisibleError(false)} , 4000);
             setMessage('Le code que vous avez scanner est invalide');
           }else {
             setMessage(res.message);
-            setModalVisible(true);
-            setTimeout (async () => {setModalVisible(false)} , 4000);
-            ;
+            setModalVisibleSuccess(true);
+            setTimeout (async () => {setModalVisibleSuccess(false)} , 4000);
           }
         });
     }catch(e){
-      setMessage('serveur ne répond pas');
+      setMessage('Serveur ne répond pas');
     }
     setLoading(false);
-    console.log(message);
   };
 
   if (hasPermission === false) {
@@ -81,7 +86,11 @@ export function QrCodeScreen ({navigation}) {
         />)}
       <SquareQrCode />
       <QrcodeSccess 
-        propsModalVisible={modalVisible} 
+        propsModalVisible={modalVisibleSuccess} 
+        message={message}
+        />
+      <QrcodeError 
+        propsModalVisible={modalVisibleError} 
         message={message}
         />
       <View >

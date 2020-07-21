@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, StyleSheet, Text ,TouchableOpacity, View } from "react-native";
 import { AntDesign } from '@expo/vector-icons'; 
-export default function ModalComponent ({propsModalVisible , onPress}){
+export default function ModalComponent ({propsModalVisible , onPress ,de,au,motif,commentaire , valide}){
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -11,15 +11,35 @@ export default function ModalComponent ({propsModalVisible , onPress}){
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-          <TouchableOpacity
-            style ={styles.close}
-            onPress={onPress}
-            >
-            <AntDesign name="closecircleo" size={30} color="#007bff" />  
-          </TouchableOpacity>
+            <View style={{flexDirection : "row" ,justifyContent :'space-between' , alignSelf: 'stretch'}}>
+              <Text style={styles.title}>Détails</Text>
+              <TouchableOpacity
+                style ={styles.close}
+                onPress={onPress}
+                >
+                <AntDesign name="closecircleo" size={30} color="#007bff" />  
+              </TouchableOpacity>
+            </View>
             
-          <Text style={styles.modalText}>TextTextTextTextTextTextTextTextTextTextTextText</Text>
-          <Text style={styles.modalText}>TextTextTextTextTextTextTextTextTextTextTextText</Text>
+            <View style={styles.userInfo}>
+              <View style={{borderWidth : 0.5, margin : 3, marginBottom : 0}}/>
+              <View style={{borderWidth : 0.5, margin : 3}}/>
+                <Text style={styles.text}> Période du : {de} </Text>
+              
+              <View style={{borderWidth : 0.5, margin : 3}}/>
+                <Text style={styles.text}>au : {au} </Text>
+              
+              <View style={{borderWidth : 0.5, margin : 3}}/>
+                <Text style={styles.text}>Motif : {motif} </Text>
+              <View style={{borderWidth : 0.5, margin : 3}}/>
+                <Text style={styles.text}>Commentaire : {commentaire} </Text>
+
+              <View style={{borderWidth : 0.5, margin : 3}}/>
+                <Text style={styles.text}>Validité : {valide ? 'oui' : 'non'} </Text>
+
+              <View style={{borderWidth : 0.5 , margin : 3 , marginBottom : 0}}/>
+              <View style={{borderWidth : 0.5, margin : 3}}/>
+            </View>
 
           </View>
         </View>
@@ -48,16 +68,31 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
+    width:'96%'
   },
   modalText: {
     marginBottom: 15,
     textAlign: "center"
   },
   close:{
-      alignSelf : 'flex-end',
       padding :6,
-      marginBottom : 16,
+      marginBottom : 12,
+  },
+  userInfo : {
+    marginHorizontal : 6 , 
+    width : '100%',
+    marginBottom : 16,
+  },
+  title : {
+    color : '#007bff',
+    backgroundColor : 'white',
+    padding :6,
+    marginBottom : 12,
+    fontSize :20
+  },
+  text : {
+    paddingHorizontal : 6
   }
 });
 

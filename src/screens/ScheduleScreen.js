@@ -7,6 +7,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import {DAYS , HOURS} from '../config/index';
 import {OfflineBar} from '../components/OfflineBar';
 import { NetworkContext } from '../contexts/NetworkProvider';
+
 const wait = (timeout) => {
   return new Promise(resolve => {
     setTimeout(resolve, timeout);

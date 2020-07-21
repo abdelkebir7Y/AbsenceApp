@@ -38,7 +38,7 @@ export default function () {
                       <RouteStack.Screen name="MainStack">
                           {() => (
                             
-                              <UserContext.Provider value={{user :state.user , emploi : state.emploi }} >
+                              <UserContext.Provider value={{user :state.user , emploi : state.emploi , justification : state.justification }} >
                                 <MainStackNavigator/>
                               </UserContext.Provider>
                             

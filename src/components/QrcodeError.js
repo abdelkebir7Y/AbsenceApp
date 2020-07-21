@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, StyleSheet, Text , View } from "react-native";
 import { AntDesign } from '@expo/vector-icons'; 
-export default function QrcodeSccess ({propsModalVisible , message}){
+export default function QrcodeError ({propsModalVisible , message}){
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -11,7 +11,7 @@ export default function QrcodeSccess ({propsModalVisible , message}){
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-                <AntDesign name="checkcircleo" size={60} color="green" style={{paddingBottom : 4}}/>
+                <AntDesign name="closecircleo" size={60} color="red" style={{paddingBottom : 4}}/>
                 <Text style={styles.modalText}>{message}</Text>
           </View>
         </View>

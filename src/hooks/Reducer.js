@@ -11,6 +11,7 @@ export function UseAuth (){
                 ...state,
                 user : { ...action.payload.user },
                 emploi : { ...action.payload.emploi },
+                justification : { ...action.payload.justification },
                 loading : false ,
                 error : undefined 
             };
@@ -25,6 +26,7 @@ export function UseAuth (){
                 ...state,
                 user : undefined,
                 emploi : undefined,
+                justification : undefined,
             };
             case 'SET_LOADING':
             return {
@@ -36,15 +38,21 @@ export function UseAuth (){
                 ...state,
                 emploi : { ...action.payload },
             };
+            case 'REFRESH_JUSTIFICATION':
+            return {
+                ...state,
+                justification : { ...action.payload },
+            };
             default:
             return state;
         }
-        },{user : undefined , loading : true , error : undefined ,emploi : []});
+        },{user : undefined , loading : true , error : undefined ,emploi : [], justification : []});
     const auth = React.useMemo(() => (
         {
             login : async (email,password) => {
                 let user = null;
                 let emploi;
+                let justification;
                 let error ;
                 try { await fetch(BASE_URL+'/login', {
                     method: 'post',
@@ -70,6 +78,7 @@ export function UseAuth (){
                                 groupe : res.user.groupe,
                             };
                             emploi = res.emploi;
+                            justification = res.justification;
                         }
                         else if(res.code === 400) {
                             error = {
@@ -103,7 +112,12 @@ export function UseAuth (){
                     } catch (e) {
                             console.log(e)
                     }
-                    dispatch(createAction('SET_USER',{user , emploi}));
+                    try {
+                        await AsyncStorage.setItem('justification', JSON.stringify(justification));
+                    } catch (e) {
+                            console.log(e)
+                    }
+                    dispatch(createAction('SET_USER',{user , emploi, justification}));
                 } else {
                     dispatch(createAction('SET_ERROR',error));
                 }
@@ -136,11 +150,15 @@ export function UseAuth (){
                 try {
                     await AsyncStorage.removeItem('user');
                     await AsyncStorage.removeItem('emploi');
+                    await AsyncStorage.removeItem('justification');
                   } catch(e) {
                     console.log(e)
                   }
-                dispatch(createAction('REMOVE_USER'));
+                dispatch(createAction('REMOVE_USER')); 
             },
+
+
+
             refresh: async () => {
                 let emploi;
                 let error ;
@@ -171,9 +189,49 @@ export function UseAuth (){
                         }
                     });
                 }catch(e){
+                    //console.log(e);
+                }
+                await AsyncStorage.setItem('emploi', JSON.stringify(emploi));
+                dispatch(createAction('REFRESH_SCHEDULE' , emploi));
+            },
+
+
+            refreshJustification: async () => {
+                let justification;
+                let error ;
+                let user ;
+                try {
+                    var jsonValue = await AsyncStorage.getItem('user') ;
+                    user = jsonValue != null ? JSON.parse(jsonValue) : null ;
+                    jsonValue = await AsyncStorage.getItem('justification') ;
+                    justification = jsonValue != null ? JSON.parse(jsonValue) : null ;
+                } catch(e) {
+                    console.log(e);
+                }
+                try { await fetch(BASE_URL+'/justification', {
+                    method: 'post',
+                    headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                    id : user.id
+                    }),
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.code === 200)
+                        {
+                            justification = res.justification;
+                        }
+                    });
+                }catch(e){
+                    console.log(e);
+
                     //  message d'erroor serveur ne repond pas
                 }
-                dispatch(createAction('REFRESH_SCHEDULE' , emploi));
+                await AsyncStorage.setItem('justification', JSON.stringify(justification));
+                dispatch(createAction('REFRESH_JUSTIFICATION' , justification));
             },
         }
     ), []);
@@ -182,16 +240,19 @@ export function UseAuth (){
         setTimeout (async () => {
             let user ;
             let emploi ;
+            let justification ;
             try {
                 var jsonValue = await AsyncStorage.getItem('user')
                 user = jsonValue != null ? JSON.parse(jsonValue) : null ;
                 jsonValue = await AsyncStorage.getItem('emploi')
                 emploi = jsonValue != null ? JSON.parse(jsonValue) : null ;
+                jsonValue = await AsyncStorage.getItem('justification')
+                justification = jsonValue != null ? JSON.parse(jsonValue) : null ;
             } catch(e) {
                 console.log(e);
             }
             if(user !== null){
-                dispatch(createAction('SET_USER',{user , emploi}));
+                dispatch(createAction('SET_USER',{user , emploi , justification}));
             }else {
                 dispatch(createAction('SET_LOADING',false));
             }

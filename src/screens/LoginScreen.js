@@ -13,8 +13,8 @@ var height_logo = window.height * 0.15;;
 
 export  function LoginScreen() {
     const {login} = React.useContext(AuthContext);
-    const [email , setEmail] = React.useState('abdelkebirouhassou@uca.ac.ma');
-    const [password , setPassword] = React.useState('1615517');
+    const [email , setEmail] = React.useState('');
+    const [password , setPassword] = React.useState('');
     const [loading , setLoading] = React.useState(false);
     let error = React.useContext(ErrorContext);
     
